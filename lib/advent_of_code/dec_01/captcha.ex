@@ -19,21 +19,17 @@ defmodule AdventOfCode.Captcha.PartOne do
     #   > is the first digit in the list.
     # To simulate a this simple circular list behaviour, we append the first
     # character to the end of the list
-    [first|_] = digits = Integer.digits(captcha)
+    [first | _] = digits = Integer.digits(captcha)
 
-    digits ++ [first]
+    (digits ++ [first])
     |> solve(0)
   end
 
   # ignore the last digit, it is the duplicate first digit we added
   # earlier
   defp solve([_], acc), do: acc
-
-  defp solve([x,x|tail], acc) do
-    solve([x|tail], acc + x)
-  end
-
-  defp solve([_|tail], acc), do: solve(tail, acc)
+  defp solve([x, x | tail], acc), do: solve([x | tail], acc + x)
+  defp solve([_ | tail], acc), do: solve(tail, acc)
 end
 
 defmodule AdventOfCode.Captcha.PartTwo do
@@ -62,6 +58,6 @@ defmodule AdventOfCode.Captcha.PartTwo do
   end
 
   defp solve([], _, acc), do: acc
-  defp solve([x|t1], [x|t2], acc), do: solve(t1, t2, acc + x)
-  defp solve([_|t1], [_|t2], acc), do: solve(t1, t2, acc)
+  defp solve([x | t1], [x | t2], acc), do: solve(t1, t2, acc + x)
+  defp solve([_ | t1], [_ | t2], acc), do: solve(t1, t2, acc)
 end

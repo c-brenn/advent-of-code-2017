@@ -12,7 +12,7 @@ defmodule AdventOfCode.CaptchaTest do
     end
 
     test "it correctly simulates a circular list" do
-      assert Captcha.PartOne.solve(91212129) == 9
+      assert Captcha.PartOne.solve(91_212_129) == 9
     end
   end
 
@@ -26,9 +26,9 @@ defmodule AdventOfCode.CaptchaTest do
     end
 
     test "it correctly solves more complex captchas" do
-      assert Captcha.PartTwo.solve(123425) == 4
-      assert Captcha.PartTwo.solve(123123) == 12
-      assert Captcha.PartTwo.solve(12131415) == 4
+      assert Captcha.PartTwo.solve(123_425) == 4
+      assert Captcha.PartTwo.solve(123_123) == 12
+      assert Captcha.PartTwo.solve(12_131_415) == 4
     end
   end
 end
