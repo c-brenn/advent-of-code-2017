@@ -1,3 +1,20 @@
+defmodule AdventOfCode.Captcha do
+  @doc """
+  A generic solution to both parts of the captcha problem. Creates a copy of the
+  captcha and shift its elements around by `shift_size` places. Then iterates
+  over the two copies comparing the digits at corresponding indices
+  """
+  def solve(captcha, shift_size) do
+    digits = Integer.digits(captcha)
+    {tail, head} = Enum.split(digits, shift_size)
+    solve(digits, head ++ tail, 0)
+  end
+
+  defp solve([], _, acc), do: acc
+  defp solve([x | t1], [x | t2], acc), do: solve(t1, t2, acc + x)
+  defp solve([_ | t1], [_ | t2], acc), do: solve(t1, t2, acc)
+end
+
 defmodule AdventOfCode.Captcha.PartOne do
   @moduledoc """
   You're standing in a room with "digitization quarantine" written in LEDs along
@@ -13,23 +30,16 @@ defmodule AdventOfCode.Captcha.PartOne do
   is circular, so the digit after the last digit is the first digit in the list.
   """
 
+  @doc """
+  The problem specifies:
+     > The list is circular, so the digit after the last digit
+     > is the first digit in the list.
+   We can simulate this by using a shift_size of 1
+  """
   def solve(captcha) do
-    # The problem specifies:
-    #   > The list is circular, so the digit after the last digit
-    #   > is the first digit in the list.
-    # To simulate a this simple circular list behaviour, we append the first
-    # character to the end of the list
-    [first | _] = digits = Integer.digits(captcha)
-
-    (digits ++ [first])
-    |> solve(0)
+    shift_size = 1
+    AdventOfCode.Captcha.solve(captcha, shift_size)
   end
-
-  # ignore the last digit, it is the duplicate first digit we added
-  # earlier
-  defp solve([_], acc), do: acc
-  defp solve([x, x | tail], acc), do: solve([x | tail], acc + x)
-  defp solve([_ | tail], acc), do: solve(tail, acc)
 end
 
 defmodule AdventOfCode.Captcha.PartTwo do
@@ -44,20 +54,19 @@ defmodule AdventOfCode.Captcha.PartTwo do
   it. Fortunately, your list has an even number of elements.
   """
 
-  def solve(captcha) do
-    digits = Integer.digits(captcha)
-    # For these captchas we need to more accurately simluate a circular list.
-    # Given a captcha of length N, we know that we will always be comparing the
-    # element at index X with the element at index X + N/2. To achieve this, we
-    # can create a copy of the captcha and shift its elements around by N/2
-    # places. We can then iterate over the two copies comparing the digits at
-    # corresponding indices.
-    shift_size = Enum.count(digits) |> Integer.floor_div(2)
-    {tail, head} = Enum.split(digits, shift_size)
-    solve(digits, head ++ tail, 0)
-  end
 
-  defp solve([], _, acc), do: acc
-  defp solve([x | t1], [x | t2], acc), do: solve(t1, t2, acc + x)
-  defp solve([_ | t1], [_ | t2], acc), do: solve(t1, t2, acc)
+  @doc """
+  For these captchas we need to more accurately simluate a circular list. Given
+  a captcha of length N, we know that we will always be comparing the element at
+  index X with the element at index X + N/2. To achieve this, we use a shift
+  size of N/2
+  """
+  def solve(captcha) do
+    shift_size =
+      captcha
+      |> Integer.digits()
+      |> Enum.count()
+      |> Integer.floor_div(2)
+    AdventOfCode.Captcha.solve(captcha, shift_size)
+  end
 end
