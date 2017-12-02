@@ -54,7 +54,6 @@ defmodule AdventOfCode.Captcha.PartTwo do
   it. Fortunately, your list has an even number of elements.
   """
 
-
   @doc """
   For these captchas we need to more accurately simluate a circular list. Given
   a captcha of length N, we know that we will always be comparing the element at
@@ -67,6 +66,7 @@ defmodule AdventOfCode.Captcha.PartTwo do
       |> Integer.digits()
       |> Enum.count()
       |> Integer.floor_div(2)
+
     AdventOfCode.Captcha.solve(captcha, shift_size)
   end
 end
