@@ -2,6 +2,7 @@ defmodule AdventOfCode.Spiral.PartOne do
   require Integer
 
   def distance_to_center(1), do: 0
+
   def distance_to_center(n) do
     row_number = calculate_row_number(n)
     row_number + distance_to_center_of_row(n, row_number)
@@ -25,21 +26,23 @@ end
 defmodule AdventOfCode.Spiral.PartTwo do
   def larger_than(n) do
     spiral()
-    |> Enum.reduce_while(%{}, fn (coords, map) ->
-      current = value_at(coords, map)
-      if current > n do
-        {:halt, current}
-      else
-        {:cont, Map.put(map, coords, current)}
-      end
-    end)
+    |> Enum.reduce_while(%{}, fn coords, map ->
+         current = value_at(coords, map)
+
+         if current > n do
+           {:halt, current}
+         else
+           {:cont, Map.put(map, coords, current)}
+         end
+       end)
   end
 
   def value_at({0, 0}, _), do: 1
+
   def value_at(coords, map) do
     coords
     |> neighbours()
-    |> Enum.map(&(Map.get(map, &1, 0)))
+    |> Enum.map(&Map.get(map, &1, 0))
     |> Enum.sum()
   end
 
@@ -54,7 +57,7 @@ defmodule AdventOfCode.Spiral.PartTwo do
       add_coords(step(:down), step(:right)),
       add_coords(step(:down), step(:left))
     ]
-    |> Enum.map(&(add_coords(x, &1)))
+    |> Enum.map(&add_coords(x, &1))
   end
 
   @doc """
@@ -76,11 +79,7 @@ defmodule AdventOfCode.Spiral.PartTwo do
   ...
   """
   def spiral do
-    Stream.resource(
-      &init_stream/0,
-      &move/1,
-      fn _ -> nil end
-    )
+    Stream.resource(&init_stream/0, &move/1, fn _ -> nil end)
   end
 
   defp init_stream() do

@@ -3,6 +3,7 @@ defmodule AdventOfCode.PassPhrase.PartOne do
     words =
       passphrase
       |> String.split()
+
     unique_words = Enum.uniq(words)
     Enum.count(words) == Enum.count(unique_words)
   end
@@ -14,6 +15,7 @@ defmodule AdventOfCode.PassPhrase.PartTwo do
       passphrase
       |> String.split()
       |> Enum.map(&normalise/1)
+
     unique_words = Enum.uniq(words)
     Enum.count(words) == Enum.count(unique_words)
   end

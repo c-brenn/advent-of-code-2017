@@ -33,11 +33,11 @@ defmodule AdventOfCode.Spiral.PartTwoTest do
       |> Enum.to_list()
       |> Enum.zip(1..5)
       |> Enum.reduce(%{}, fn {coords, i}, map ->
-        expected = expected_value(i)
-        actual = Spiral.value_at(coords, map)
-        assert actual == expected
-        Map.put(map, coords, expected)
-      end)
+           expected = expected_value(i)
+           actual = Spiral.value_at(coords, map)
+           assert actual == expected
+           Map.put(map, coords, expected)
+         end)
     end
   end
 
