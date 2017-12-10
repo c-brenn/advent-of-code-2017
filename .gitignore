@@ -20,5 +20,5 @@ erl_crash.dump
 *.ez
 
 # the generated parser and lexer modules
-/src/registers_lexer.erl
-/src/registers_parser.erl
+/src/*_lexer.erl
+/src/*_parser.erl
