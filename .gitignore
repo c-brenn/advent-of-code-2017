@@ -18,3 +18,7 @@ erl_crash.dump
 
 # Also ignore archive artifacts (built via "mix archive.build").
 *.ez
+
+# the generated parser and lexer modules
+/src/registers_lexer.erl
+/src/registers_parser.erl
